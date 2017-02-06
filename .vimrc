@@ -1,5 +1,15 @@
 execute pathogen#infect()
 syntax on
+let g:ycm_key_detailed_diagnostics = '<localleader>d'   " Don't confict with my ,d mapping
+let g:ycm_confirm_extra_conf = 0
+" Disable YCM for LaTeX
+let g:ycm_filetype_blacklist = {
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'text' : 1,
+      \ 'tex' : 1,
+      \ 'bib' : 1,
+      \}
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 au BufNewFile,BufRead *.cl set filetype=c
@@ -26,9 +36,15 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " Map :make to \j
 map <Leader>j :silent make\|redraw!\|cc<CR>
 
+" Doxygen toolkit
+let g:DoxygenToolkit_briefTag_pre="@Synopsis  "
+let g:DoxygenToolkit_paramTag_pre="@Param "
+let g:DoxygenToolkit_returnTag="@Returns   "
+let g:DoxygenToolkit_blockHeader="-------------------------------"
+let g:DoxygenToolkit_blockFooter="---------------------------------"
+let g:DoxygenToolkit_authorName="Vojtech Vecera"
+
 " visual setting "
-
-
 filetype on
 filetype plugin on
 filetype indent on
@@ -37,6 +53,7 @@ let g:solarized_termcolors=16
 set background=dark
 colorscheme solarized
 
+set encoding=utf-8
 set number
 set linebreak	
 set showbreak=+++
