@@ -36,14 +36,20 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " Map :make to \j
 map <Leader>j :silent make\|redraw!\|cc<CR>
 
-" Doxygen toolkit
-let g:DoxygenToolkit_briefTag_pre="@Synopsis  "
-let g:DoxygenToolkit_paramTag_pre="@Param "
-let g:DoxygenToolkit_returnTag="@Returns   "
-let g:DoxygenToolkit_blockHeader="-------------------------------"
-let g:DoxygenToolkit_blockFooter="---------------------------------"
+" Doxygen toolkit settings plus needed mapping of :Dox to Alt-D
+let g:DoxygenToolkit_briefTag_pre="@brief   "
+let g:DoxygenToolkit_paramTag_pre="@param "
+let g:DoxygenToolkit_returnTag=   "@return  "
+" let g:DoxygenToolkit_blockHeader="-------------------------------"
+" let g:DoxygenToolkit_blockFooter="---------------------------------"
 let g:DoxygenToolkit_authorName="Vojtech Vecera"
+let g:DoxygenToolkit_compactDoc = "yes"
+nnoremap <A-d> :Dox<CR>
 
+" start NERDTree by default
+autocmd VimEnter * NERDTree
+autocmd VimEnter * wincmd p
+ 
 " visual setting "
 filetype on
 filetype plugin on
@@ -68,10 +74,10 @@ set incsearch
  
 set autoindent
 set cindent	
-set shiftwidth=2
+set shiftwidth=4
 set smartindent	
 set smarttab	
-set softtabstop=2
+set softtabstop=4
  
 set ruler	
  
@@ -128,6 +134,8 @@ noremap <silent> <C-j> :call DelEmptyLineBelow()<CR>
 noremap <silent> <C-k> :call DelEmptyLineAbove()<CR>
 noremap <silent> <A-j> :call AddEmptyLineBelow()<CR>
 noremap <silent> <A-k> :call AddEmptyLineAbove()<CR>
+
+
 " REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
 
 " IMPORTANT: win32 users will need to have 'shellslash' set so that latex
