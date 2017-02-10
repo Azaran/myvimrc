@@ -1,3 +1,4 @@
+let g:ycm_server_python_interpreter = '/usr/bin/python2.7'
 execute pathogen#infect()
 syntax on
 let g:ycm_key_detailed_diagnostics = '<localleader>d'   " Don't confict with my ,d mapping
@@ -63,7 +64,7 @@ set encoding=utf-8
 set number
 set linebreak	
 set showbreak=+++
-set textwidth=100
+set textwidth=80
 set showmatch	
 set visualbell	
  
