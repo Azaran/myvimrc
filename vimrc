@@ -1,5 +1,6 @@
 syntax on
 
+
 " start NERDTree by default
 autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd p
@@ -50,9 +51,33 @@ execute pathogen#infect()
 
 au BufNewFile,BufRead *.cl set filetype=c
 
-autocmd BufWritePost * exe ":UpdateTags"
-let g:easytags_async = 1
-let g:easytags_syntax_keyword = 'auto'
+" http://vim.wikia.com/wiki/C%2B%2B_code_completion
+" omniCPP
+set nocp
+" configure tags - add additional tags here or comment out not-used ones
+set tags+=~/.vim/tags/cpp
+set tags+=~/.vim/tags/gl
+set tags+=~/.vim/tags/sdl
+set tags+=~/.vim/tags/qt4
+
+"" OmniCppComplete
+let OmniCpp_NamespaceSearch = 1
+let OmniCpp_GlobalScopeSearch = 1
+let OmniCpp_ShowAccess = 1
+let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
+let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
+let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
+" automatically open and close the popup menu / preview window
+au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+set completeopt=menuone,menu,longest,preview
+
+autocmd BufWritePost * exe ":!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q ."
+" let g:easytags_dynamic_files = 1
+" let g:easytags_include_members = 1
+" let g:easytags_async = 1
+" let g:easytags_syntax_keyword = 'auto'
 
 " AutoPair FlyMode
 let g:AutoPairsFlyMode = 0
