@@ -1,51 +1,4 @@
-let g:ycm_server_python_interpreter = '/usr/bin/python2.7'
-execute pathogen#infect()
 syntax on
-let g:ycm_key_detailed_diagnostics = '<localleader>d'   " Don't confict with my ,d mapping
-let g:ycm_confirm_extra_conf = 0
-" Disable YCM for LaTeX
-let g:ycm_filetype_blacklist = {
-      \ 'notes' : 1,
-      \ 'markdown' : 1,
-      \ 'text' : 1,
-      \ 'tex' : 1,
-      \ 'bib' : 1,
-      \}
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-au BufNewFile,BufRead *.cl set filetype=c
-
-" Map Alt to <ESC> with timeout
-let c='a'
-while c <= 'z'
-    exec "set <A-".c.">=\e".c
-    exec "imap \e".c." <A-".c.">"
-    let c = nr2char(1+char2nr(c))
-endw
-set ttimeout ttimeoutlen=30
-" Automatically open, but do not go to (if there are errors) the quickfix /
-" location list window, or close it when is has become empty.
-"
-" Note: Must allow nesting of autocmds to enable any customizations for quickfix
-" buffers.
-" Note: Normally, :cwindow jumps to the quickfix window if the command opens it
-" (but not if it's already open). However, as part of the autocmd, this doesn't
-" seem to happen.
-autocmd QuickFixCmdPost [^l]* nested cwindow
-autocmd QuickFixCmdPost    l* nested lwindow
-
-" Map :make to \j
-map <Leader>j :silent make\|redraw!\|cc<CR>
-
-" Doxygen toolkit settings plus needed mapping of :Dox to Alt-D
-let g:DoxygenToolkit_briefTag_pre="@brief   "
-let g:DoxygenToolkit_paramTag_pre="@param "
-let g:DoxygenToolkit_returnTag=   "@return  "
-" let g:DoxygenToolkit_blockHeader="-------------------------------"
-" let g:DoxygenToolkit_blockFooter="---------------------------------"
-let g:DoxygenToolkit_authorName="Vojtech Vecera"
-let g:DoxygenToolkit_compactDoc = "yes"
-nnoremap <A-d> :Dox<CR>
 
 " start NERDTree by default
 autocmd VimEnter * NERDTree
@@ -57,11 +10,13 @@ filetype plugin on
 filetype indent on
 
 let g:solarized_termcolors=16
+set t_Co=16
 set background=dark
 colorscheme solarized
 
 set encoding=utf-8
 set number
+set relativenumber
 set linebreak	
 set showbreak=+++
 set textwidth=80
@@ -88,6 +43,53 @@ set backspace=indent,eol,start
 set foldmethod=syntax
 " Ctrl-i inserts one char and exits to normal mode
 map <C-i> i_<Esc>r
+
+" list of disabled plugins
+let g:pathogen_disabled = []
+execute pathogen#infect()
+
+au BufNewFile,BufRead *.cl set filetype=c
+
+autocmd BufWritePost * exe ":UpdateTags"
+let g:easytags_async = 1
+let g:easytags_syntax_keyword = 'auto'
+
+" AutoPair FlyMode
+let g:AutoPairsFlyMode = 0
+let g:AutoPairsShortcutBackInsert = '<M-b>'
+
+" Map Alt to <ESC> with timeout
+let c='a'
+while c <= 'z'
+    exec "set <A-".c.">=\e".c
+    exec "imap \e".c." <A-".c.">"
+    let c = nr2char(1+char2nr(c))
+endw
+set ttimeout ttimeoutlen=30
+" Automatically open, but do not go to (if there are errors) the quickfix /
+" location list window, or close it when is has become empty.
+"
+" Note: Must allow nesting of autocmds to enable any customizations for quickfix
+" buffers.
+" Note: Normally, :cwindow jumps to the quickfix window if the command opens it
+" (but not if it's already open). However, as part of the autocmd, this doesn't
+" seem to happen.
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+
+" Map :make to \j
+map <Leader>j :silent make\|redraw!\|cc<CR>
+
+" Doxygen toolkit settings plus needed mapping of :Dox to Alt-D
+nnoremap <A-d> :Dox<CR>
+let g:DoxygenToolkit_briefTag_pre="@brief   "
+let g:DoxygenToolkit_paramTag_pre="@param "
+let g:DoxygenToolkit_returnTag=   "@return  "
+" let g:DoxygenToolkit_blockHeader="-------------------------------"
+" let g:DoxygenToolkit_blockFooter="---------------------------------"
+let g:DoxygenToolkit_authorName="Vojtech Vecera"
+let g:DoxygenToolkit_compactDoc = "yes"
+
 
 " Ctrl-j/k deletes blank line below/above, and Alt-j/k inserts.
 function! AddEmptyLineBelow()
@@ -174,19 +176,3 @@ function! OutlineToggle()
   endif
 endfunction
 
-" VALA
-" Disable valadoc syntax highlight
-"let vala_ignore_valadoc = 1
-
-" Enable comment strings
-let vala_comment_strings = 1
-
-" Highlight space errors
-" let vala_space_errors = 1
-" Disable trailing space errors
-"let vala_no_trail_space_error = 1
-" Disable space-tab-space errors
-let vala_no_tab_space_error = 1
-
-" Minimum lines used for comment syncing (default 50)
-"let vala_minlines = 120
