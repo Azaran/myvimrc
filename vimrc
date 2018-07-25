@@ -43,7 +43,7 @@ set backspace=indent,eol,start
 
 set foldmethod=syntax
 " Ctrl-i inserts one char and exits to normal mode
-map <C-i> i_<Esc>r
+map <C-i> i_<Esc>
 
 " list of disabled plugins
 let g:pathogen_disabled = []
@@ -73,11 +73,7 @@ let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 set completeopt=menuone,menu,longest,preview
 
-autocmd BufWritePost * exe ":!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q ."
-" let g:easytags_dynamic_files = 1
-" let g:easytags_include_members = 1
-" let g:easytags_async = 1
-" let g:easytags_syntax_keyword = 'auto'
+autocmd BufWritePost * exe ":!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q ." 
 
 " AutoPair FlyMode
 let g:AutoPairsFlyMode = 0
@@ -174,9 +170,6 @@ set shellslash
 " search in a singe file. This will confuse Latex-Suite. Set your grep
 " program to always generate a file-name.
 set grepprg=grep\ -nH\ $*
-
-" OPTIONAL: This enables automatic indentation as you type.
-filetype indent on
 
 " OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
 " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
