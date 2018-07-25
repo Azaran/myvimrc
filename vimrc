@@ -73,7 +73,8 @@ let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 set completeopt=menuone,menu,longest,preview
 
-autocmd BufWritePost * exe ":!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q ." 
+" Update tags on file save asynchronously
+autocmd BufWritePost * if &filetype == 'cpp' | silent exe ":!(ctags -R --c++-kinds=+p --fields=+iaS --extra=+q . &)" | endif
 
 " AutoPair FlyMode
 let g:AutoPairsFlyMode = 0
