@@ -2,7 +2,7 @@ syntax on
 
 
 " start NERDTree by default
-autocmd VimEnter * NERDTree
+" autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd p
  
 " visual setting "
@@ -16,6 +16,8 @@ set background=dark
 colorscheme solarized
 
 set encoding=utf-8
+set fileformat=unix
+
 set number
 set relativenumber
 set linebreak	
@@ -36,14 +38,28 @@ set smartindent
 set smarttab	
 set softtabstop=4
  
+set matchpairs+=<:>
 set ruler	
  
 set undolevels=1000
 set backspace=indent,eol,start
 
 set foldmethod=syntax
+
+set wmh=0
+
+" `gf` opens file under cursor in a new vertical split
+nnoremap gf :vertical wincmd f<CR>
+
+" Navigation between open windows
+map <C-J> <C-W>j
+map <C-K> <C-W>k
+map <C-H> <C-W>h
+map <C-L> <C-W>l
 " Ctrl-i inserts one char and exits to normal mode
 map <C-i> i_<Esc>
+" Map :make to \j
+map <Leader>j :silent make\|redraw!\|cc<CR>
 
 " list of disabled plugins
 let g:pathogen_disabled = []
@@ -99,21 +115,18 @@ set ttimeout ttimeoutlen=30
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 
-" Map :make to \j
-map <Leader>j :silent make\|redraw!\|cc<CR>
 
 " Doxygen toolkit settings plus needed mapping of :Dox to Alt-D
 nnoremap <A-d> :Dox<CR>
 let g:DoxygenToolkit_briefTag_pre="@brief   "
 let g:DoxygenToolkit_paramTag_pre="@param "
 let g:DoxygenToolkit_returnTag=   "@return  "
-" let g:DoxygenToolkit_blockHeader="-------------------------------"
-" let g:DoxygenToolkit_blockFooter="---------------------------------"
+let g:DoxygenToolkit_blockHeader="-------------------------------"
+let g:DoxygenToolkit_blockFooter="---------------------------------"
 let g:DoxygenToolkit_authorName="Vojtech Vecera"
 let g:DoxygenToolkit_compactDoc = "yes"
 
-
-" Ctrl-j/k deletes blank line below/above, and Alt-j/k inserts.
+" Alt-j/k inserts new line below/above
 function! AddEmptyLineBelow()
   call append(line("."), "")
 endfunction
@@ -129,37 +142,8 @@ function! AddEmptyLineAbove()
   let &scrolloff = l:scrolloffsave
 endfunction
 
-function! DelEmptyLineBelow()
-  if line(".") == line("$")
-    return
-  end
-  let l:line = getline(line(".") + 1)
-  if l:line =~ '^\s*$'
-    let l:colsave = col(".")
-    .+1d
-    ''
-    call cursor(line("."), l:colsave)
-  end
-endfunction
-
-function! DelEmptyLineAbove()
-  if line(".") == 1
-    return
-  end
-  let l:line = getline(line(".") - 1)
-  if l:line =~ '^\s*$'
-    let l:colsave = col(".")
-    .-1d
-    silent normal! <C-y>
-    call cursor(line("."), l:colsave)
-  end
-endfunction
-
-noremap <silent> <C-j> :call DelEmptyLineBelow()<CR>
-noremap <silent> <C-k> :call DelEmptyLineAbove()<CR>
 noremap <silent> <A-j> :call AddEmptyLineBelow()<CR>
 noremap <silent> <A-k> :call AddEmptyLineAbove()<CR>
-
 
 " REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
 
@@ -171,6 +155,9 @@ set shellslash
 " search in a singe file. This will confuse Latex-Suite. Set your grep
 " program to always generate a file-name.
 set grepprg=grep\ -nH\ $*
+
+" OPTIONAL: This enables automatic indentation as you type.
+filetype indent on
 
 " OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
 " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
