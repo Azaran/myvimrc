@@ -1,9 +1,10 @@
 syntax on
 
 
-" start NERDTree by default
-" autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd p
+" Remap Caps to Ctrl - who needs caps?
+au VimEnter * silent! !xmodmap -e 'clear Lock' -e 'keycode 66 = Control_L' -e 'add Control = Control_L'
+au VimLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 66 = Caps_Lock'
  
 " visual setting "
 filetype on
@@ -48,6 +49,18 @@ set foldmethod=syntax
 
 set wmh=0
 
+" Configuration of CtrlP plugin
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+  "
+  "     " Use ag in CtrlP for listing files. Lightning fast and respects
+  "     .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+
 " `gf` opens file under cursor in a new vertical split
 nnoremap gf :vertical wincmd f<CR>
 
@@ -59,7 +72,8 @@ map <C-L> <C-W>l
 " Ctrl-i inserts one char and exits to normal mode
 map <C-i> i_<Esc>
 " Map :make to \j
-map <Leader>j :silent make\|redraw!\|cc<CR>
+map <Leader>m :make\|redraw!\|cc<CR>
+map <Leader>c :make clean\|redraw!<CR>
 
 " list of disabled plugins
 let g:pathogen_disabled = []
@@ -121,8 +135,8 @@ nnoremap <A-d> :Dox<CR>
 let g:DoxygenToolkit_briefTag_pre="@brief   "
 let g:DoxygenToolkit_paramTag_pre="@param "
 let g:DoxygenToolkit_returnTag=   "@return  "
-let g:DoxygenToolkit_blockHeader="-------------------------------"
-let g:DoxygenToolkit_blockFooter="---------------------------------"
+" let g:DoxygenToolkit_blockHeader="-------------------------------"
+" let g:DoxygenToolkit_blockFooter="---------------------------------"
 let g:DoxygenToolkit_authorName="Vojtech Vecera"
 let g:DoxygenToolkit_compactDoc = "yes"
 
