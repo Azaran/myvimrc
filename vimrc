@@ -60,8 +60,17 @@ if executable('ag')
   "     .gitignore
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
-" Disable looking for the project root
-g:ctrlp_working_path_mode 0
+
+" Add custom mark of the project root directory
+let g:ctrlp_root_markers = ['.ctrlp']
+
+" Ignore various files in ctrlp
+set wildignore+=*/tags,*/tmp/*,*.so,*.swp,*.zip,*/obj/*,*/bin/*     " MacOSX/Linux
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
 
 " `gf` opens file under cursor in a new vertical split
 nnoremap gf :vertical wincmd f<CR>
@@ -197,4 +206,7 @@ function! OutlineToggle()
     let b:outline_mode = 0
   endif
 endfunction
+
+" Repeat configuration
+silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 
