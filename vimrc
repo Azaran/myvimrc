@@ -60,6 +60,8 @@ if executable('ag')
   "     .gitignore
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
+" Disable looking for the project root
+g:ctrlp_working_path_mode 0
 
 " `gf` opens file under cursor in a new vertical split
 nnoremap gf :vertical wincmd f<CR>
