@@ -38,6 +38,7 @@ set shiftwidth=4
 set smartindent	
 set smarttab	
 set softtabstop=4
+set expandtab
  
 set matchpairs+=<:>
 set ruler	
@@ -115,7 +116,7 @@ au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 set completeopt=menuone,menu,longest,preview
 
 " Update tags on file save asynchronously
-autocmd BufWritePost * if &filetype == 'cpp' | silent exe ":!(ctags -R --c++-kinds=+p --fields=+iaS --extra=+q . &)" | endif
+autocmd BufWritePost * if &filetype == 'cpp' | silent exe ":!(ctags -R --c++-kinds=+pcfstmn --fields=+iaS --extras=+q --exclude=*.sql . &)" | endif
 
 " AutoPair FlyMode
 let g:AutoPairsFlyMode = 0
